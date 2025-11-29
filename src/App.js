@@ -15,9 +15,23 @@ class App extends Component {
     ],
     filter: '',
     name: '',
+    isLoading: true,
     number: ''
   }
 
+  componentDidMount() {
+  const localContacts = localStorage.getItem("contacts")
+  if (localContacts) {
+   const parcedLocalContacts = JSON.parse(localContacts)
+    this.setState({contacts: parcedLocalContacts, isLoading: false})
+  }
+}
+
+componentDidUpdate(prevProps, prevState) {
+ if (prevState.contacts !== this.state.contacts) {
+  localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
+ }
+}
 
   handleFilterChange = (event) => {
     this.setState({ filter: event.target.value })
@@ -54,6 +68,16 @@ class App extends Component {
   render() {
     const normalisedFilter = this.state.filter.toLowerCase();
     const filteredContacts = this.state.contacts.filter(contact => contact.name.toLowerCase().includes(normalisedFilter));
+      if(this.state.isLoading === true) {
+    return( <div className="App">
+        <h1>Phonebook</h1>
+        <PhoneInput onAddContact={this.handleAddContact} />
+       <h2>Contacts</h2>
+        <Filter value={this.state.filter} onChange={this.handleFilterChange} />
+         <h2>Loading...</h2>
+      </div>
+      )
+  }
     return (
       <div className="App">
         <h1>Phonebook</h1>
