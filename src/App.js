@@ -24,6 +24,8 @@ class App extends Component {
   if (localContacts) {
    const parcedLocalContacts = JSON.parse(localContacts)
     this.setState({contacts: parcedLocalContacts, isLoading: false})
+  } else {
+    this.setState({ isLoading: false})
   }
 }
 
