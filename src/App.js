@@ -20,13 +20,16 @@ class App extends Component {
   }
 
   componentDidMount() {
-  const localContacts = localStorage.getItem("contacts")
+    setTimeout(() => {
+        const localContacts = localStorage.getItem("contacts")
   if (localContacts) {
    const parcedLocalContacts = JSON.parse(localContacts)
     this.setState({contacts: parcedLocalContacts, isLoading: false})
   } else {
     this.setState({ isLoading: false})
   }
+    }, 100)
+
 }
 
 componentDidUpdate(prevProps, prevState) {
